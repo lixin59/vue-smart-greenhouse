@@ -35,7 +35,9 @@
             <div class="data-text">控制温度</div>
             <van-slider v-model="temSlide" active-color="#0fbddb"  @change="temChange">
               <template #button>
-                <div class="custom-button">{{ temSlide }}</div>
+                <div class="custom-box">
+                  <div class="custom-button">{{ temSlide }}</div>
+                </div>
               </template>
             </van-slider>
           </div>
@@ -45,7 +47,9 @@
             <div class="data-text">控制湿度</div>
             <van-slider v-model="humSlide" active-color="#0fbddb"  @change="humChange">
               <template #button>
-                <div class="custom-button">{{ humSlide }}</div>
+                <div class="custom-box">
+                  <div class="custom-button">{{ humSlide }}</div>
+                </div>
               </template>
             </van-slider>
           </div>
@@ -235,7 +239,18 @@ export default {
   .van-slider{
     height: 8px;
   }
+  .custom-box{
+    display: flex;
+    background-color: #ededed;
+    box-shadow: #999898 0px 2px 4px 1px;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+    border-radius: 100px;
+  }
   .custom-button {
+    margin: auto;
     width: 26px;
     height: 26px;
     color: #fff;
@@ -243,7 +258,6 @@ export default {
     line-height: 26px;
     text-align: center;
     background-color: #0fbddb;
-    box-shadow: #999898 0px 1px 3px 1px;
     border-radius: 100px;
   }
 }
