@@ -69,6 +69,10 @@ export default {
     // 从onenet平台获取数据
     that.$oneNetApi.getDataStreams(that.$devicesid).done(function(data) {
       // console.log('数据请求成功，服务器返回data为：', data);
+      if (data.errno === 100) {
+        that.$toast.fail('网络超时！');
+        throw new Error('网络超时');
+      }
       const tempdatas = data.data[0];
       const humdatas = data.data[2];
       const luxdatas = data.data[1];
@@ -117,9 +121,8 @@ export default {
       weatherAdvice: '请求中', // 天气建议
       win: '请求中', // 风向
       winSpeed: '请求中', // 风力等级
-      tem: '', // 温度
-      hum: '', // 湿度
-      lux: '', // 光照强度
+      tem: '...', // 温度
+      hum: '...', // 湿度
       temSlide: 0, // 温度滑块值
       humSlide: 0, // 湿度滑块值
     };
@@ -131,6 +134,10 @@ export default {
       // const api = new OneNetApi(that.apikey);
       that.$oneNetApi.sendCommand(that.$devicesid, `{"type":"tem","value":${that.temSlide}}`).done(function(data) {
         // console.log('api调用完成，服务器返回data为：', data);
+        if (data.errno === 100) {
+          that.$toast.fail('网络超时！');
+          throw new Error('网络超时');
+        }
         if (data.errno === 10) {
           that.$dialog.alert({
             message: '设备不在线'
@@ -147,6 +154,10 @@ export default {
       // const api = new OneNetApi(that.apikey);
       that.$oneNetApi.sendCommand(that.$devicesid, `{"type":"tem","value":${that.humSlide}}`).done(function(data) {
         // console.log('api调用完成，服务器返回data为：', data);
+        if (data.errno === 100) {
+          that.$toast.fail('网络超时！');
+          throw new Error('网络超时');
+        }
         if (data.errno === 10) {
           that.$dialog.alert({
             message: '设备不在线'

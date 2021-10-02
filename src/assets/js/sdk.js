@@ -18,7 +18,7 @@
     const id = opts.name || prefix + count++;
 
     const param = opts.param || 'callback';
-    const timeout = opts.timeout != null ? opts.timeout : 60000;
+    const timeout = opts.timeout != null ? opts.timeout : 600;
     const enc = encodeURIComponent;
     const target = document.getElementsByTagName('script')[0] || document.head;
     // eslint-disable-next-line prefer-const

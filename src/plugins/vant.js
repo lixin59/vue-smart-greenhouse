@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import {
   Button, Field, CellGroup, Form, Tabbar, TabbarItem, Switch, Dialog, Toast,
-  ContactCard, Swipe, SwipeItem, Tab, Tabs, Tag, Slider
+  ContactCard, Swipe, SwipeItem, Tab, Tabs, Tag, Slider, Empty
 } from 'vant';
 
 Vue.use(Button);
@@ -20,3 +20,4 @@ Vue.use(Tab);
 Vue.use(Tabs);
 Vue.use(Tag);
 Vue.use(Slider);
+Vue.use(Empty);
