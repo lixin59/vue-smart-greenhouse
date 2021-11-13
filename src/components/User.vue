@@ -43,7 +43,7 @@
           <td><van-button class="deleteBtn" type="danger" @click="deleteDevice(i.id)">删除</van-button></td>
         </tr>
       </table>
-      <van-dialog v-model="show" title="标题" show-cancel-button @confirm="getDevice">>
+      <van-dialog v-model="show" title="标题" show-cancel-button @confirm="getDevice">
         <van-field v-model="deviceId" label="设备id" placeholder="请输入设备id" />
         <van-field v-model="apiKey" label="设备apikey" placeholder="请输入设备apikey" />
       </van-dialog>
