@@ -25,6 +25,29 @@
         </van-swipe-item>
       </van-swipe>
     </div>
+    <div class="device">
+      <div class="device-title">
+        <span>我的设备</span>
+        <van-button class="addBtn" icon="plus" type="primary"  @click="addDevice"/>
+      </div>
+      <van-divider  :style="{ color: '#1989fa', borderColor: '#1989fa', padding: '0 16px' }" />
+      <table class="d-table">
+        <tr class="device-tr">
+          <th>设备id</th>
+          <th>状态</th>
+          <th>操作</th>
+        </tr>
+        <tr class="device-tr" v-for="i in deviceList" :key="i.id" >
+          <td>{{i.id}}</td>
+          <td>{{i.status}}</td>
+          <td><van-button class="deleteBtn" type="danger" @click="deleteDevice(i.id)">删除</van-button></td>
+        </tr>
+      </table>
+      <van-dialog v-model="show" title="标题" show-cancel-button @confirm="getDevice">>
+        <van-field v-model="deviceId" label="设备id" placeholder="请输入设备id" />
+        <van-field v-model="apiKey" label="设备apikey" placeholder="请输入设备apikey" />
+      </van-dialog>
+    </div>
     <div class="btn">
       <van-button
         color="linear-gradient(to right, #0e5779, #023349)"
@@ -40,10 +63,61 @@
 </template>
 
 <script>
+import '../assets/js/sdk';
+import Vue from 'vue';
 export default {
+  data() {
+    return {
+      deviceId: '',
+      apiKey: '',
+      show: false,
+      deviceList: Vue.prototype.$deviceList
+    };
+  },
   methods: {
     tologin() {
       this.$router.push('/');
+    },
+    addDevice() {
+      this.show = true;
+    },
+    deleteDevice(id) {
+      const { deviceList } = this;
+      const result = deviceList.filter(e => e.id !== id);
+      this.deviceList = result;
+      Vue.prototype.$deviceList = result;
+      Vue.prototype.$devicesid = '';
+      Vue.prototype.$oneNetApi = new OneNetApi('mY81iO40=H7=dCbFdjeEc33');
+    },
+    getDevice() {
+      const that = this;
+      const { deviceId, apiKey, deviceList } = that;
+      if (!deviceId) {
+        this.$toast.fail('设备id不能为空');
+        console.log('不能为空');
+        return;
+      }
+      if (!apiKey) {
+        this.$toast.fail('设备apikey不能为空');
+        return;
+      }
+      const api = new OneNetApi(apiKey);
+      api.sendCommand(deviceId, 'test').done(function(data) {
+        // console.log('数据请求成功，服务器返回data为：', data);
+        if (data.errno === 10) {
+          Vue.prototype.$deviceList.push({ id: deviceId, status: '离线' });
+          that.$toast.fail(data.error);
+        }
+        if (data.errno === 0) {
+          Vue.prototype.$deviceList.push({ id: deviceId, status: '在线' });
+        }
+        if (data.errno !== 0) {
+          that.$toast.fail(data.error);
+          return;
+        }
+      });
+      Vue.prototype.$devicesid = deviceId;
+      Vue.prototype.$oneNetApi = new OneNetApi(apiKey);
     }
   }
 };
@@ -82,6 +156,34 @@ export default {
       width: 100%;
       height: 100%;
     }
+  }
+}
+.device{
+  width: 90%;
+  margin: 0 auto;
+  margin-top: 20px;
+  padding-bottom: 20px;
+  box-shadow: #d6d6d6 0px 0px 5px;
+  border-radius: 12px;
+  .device-title{
+    display: flex;
+    justify-content: space-around;
+    padding-top: 10px;
+    .addBtn{
+      height: 20px;
+    }
+  }
+  .d-table{
+    width: 100%;
+    .device-tr{
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      width: 100%;
+      .deleteBtn{
+        height: 20px;
+      }
+  }
   }
 }
 .btn {

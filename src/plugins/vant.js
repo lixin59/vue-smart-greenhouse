@@ -1,12 +1,14 @@
 import Vue from 'vue';
 import {
   Button, Field, CellGroup, Form, Tabbar, TabbarItem, Switch, Dialog, Toast,
-  ContactCard, Swipe, SwipeItem, Tab, Tabs, Tag, Slider, Empty
+  ContactCard, Swipe, SwipeItem, Tab, Tabs, Tag, Slider, Empty, Cell, Divider
 } from 'vant';
 
 Vue.use(Button);
 Vue.use(Field);
 Vue.use(CellGroup);
+Vue.use(Cell);
+Vue.use(Divider);
 Vue.use(Form);
 Vue.use(Tabbar);
 Vue.use(TabbarItem);

@@ -66,23 +66,6 @@ export default {
   created() {
     const that = this;
     const mykey = '161cff18337a40f7a811b267a8727712';
-    // 从onenet平台获取数据
-    that.$oneNetApi.getDataStreams(that.$devicesid).done(function(data) {
-      // console.log('数据请求成功，服务器返回data为：', data);
-      if (data.errno === 100) {
-        that.$toast.fail('网络超时！');
-        throw new Error('网络超时');
-      }
-      const tempdatas = data.data[0];
-      const humdatas = data.data[2];
-      const luxdatas = data.data[1];
-      // vue 给data函数return的里面的内容赋值
-      that.tem = tempdatas.current_value;
-      that.hum = humdatas.current_value;
-      that.temSlide = tempdatas.current_value;
-      that.humSlide = humdatas.current_value;
-      that.lux = parseInt(luxdatas.current_value);
-    });
     async function success(position) {
       const latitude = position.coords.latitude;
       const longitude = position.coords.longitude;
@@ -109,6 +92,26 @@ export default {
       console.log('无法获取您的位置');
     };
     navigator.geolocation.getCurrentPosition(success, error); // 获取地理位置
+    // 从onenet平台获取数据
+    that.$oneNetApi.getDataStreams(that.$devicesid).done(function(data) {
+      // console.log('数据请求成功，服务器返回data为：', data);
+      if (data.errno === 100) {
+        that.$toast.fail('网络超时！');
+        that.$dialog.alert({
+          message: '如果没有设备，请到我的页面添加设备'
+        });
+        throw new Error('网络超时');
+      }
+      const tempdatas = data.data[0];
+      const humdatas = data.data[2];
+      const luxdatas = data.data[1];
+      // vue 给data函数return的里面的内容赋值
+      that.tem = tempdatas.current_value;
+      that.hum = humdatas.current_value;
+      that.temSlide = tempdatas.current_value;
+      that.humSlide = humdatas.current_value;
+      that.lux = parseInt(luxdatas.current_value);
+    });
   },
   data() {
     return {
@@ -137,14 +140,17 @@ export default {
         if (data.errno === 100) {
           that.$toast.fail('网络超时！');
           throw new Error('网络超时');
-        }
-        if (data.errno === 10) {
+        } else if (data.errno === 0) {
+          that.$toast.success('发送成功');
+        } else if (data.errno === 10) {
           that.$dialog.alert({
             message: '设备不在线'
           });
           that.temSlide = that.tem;
         } else {
-          that.$toast.success('发送成功');
+          that.$toast.fail(data.error);
+          that.temSlide = 0;
+          throw new Error(data.error);
         }
       });
     },
@@ -157,14 +163,17 @@ export default {
         if (data.errno === 100) {
           that.$toast.fail('网络超时！');
           throw new Error('网络超时');
-        }
-        if (data.errno === 10) {
+        } else if (data.errno === 0) {
+          that.$toast.success('发送成功');
+        } else if (data.errno === 10) {
           that.$dialog.alert({
             message: '设备不在线'
           });
           that.humSlide = that.hum;
         } else {
-          that.$toast.success('发送成功');
+          that.$toast.fail(data.error);
+          that.humSlide = 0;
+          throw new Error(data.error);
         }
       });
     }
