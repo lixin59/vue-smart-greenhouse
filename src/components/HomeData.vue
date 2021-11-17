@@ -95,6 +95,7 @@ export default {
     // 从onenet平台获取数据
     that.$oneNetApi.getDataStreams(that.$devicesid).done(function(data) {
       // console.log('数据请求成功，服务器返回data为：', data);
+      console.log(data);
       if (data.errno === 100) {
         that.$toast.fail('网络超时！');
         that.$dialog.alert({
@@ -102,9 +103,9 @@ export default {
         });
         throw new Error('网络超时');
       }
-      const tempdatas = data.data[0];
-      const humdatas = data.data[2];
-      const luxdatas = data.data[1];
+      const tempdatas = data.data.find(e => e.id === 'temperature');
+      const humdatas = data.data.find(e => e.id === 'humidity');
+      const luxdatas = data.data.find(e => e.id === 'ce');
       // vue 给data函数return的里面的内容赋值
       that.tem = tempdatas.current_value;
       that.hum = humdatas.current_value;
@@ -158,7 +159,7 @@ export default {
     humChange() {
       const that = this;
       // const api = new OneNetApi(that.apikey);
-      that.$oneNetApi.sendCommand(that.$devicesid, `{"type":"tem","value":${that.humSlide}}`).done(function(data) {
+      that.$oneNetApi.sendCommand(that.$devicesid, `{"type":"hum","value":${that.humSlide}}`).done(function(data) {
         // console.log('api调用完成，服务器返回data为：', data);
         if (data.errno === 100) {
           that.$toast.fail('网络超时！');
