@@ -8,8 +8,8 @@ import AMapLoader from '@amap/amap-jsapi-loader';
 import './assets/css/global.css';
 import './assets/js/sdk';
 
-const devicesid = '000'; // 设备id 790032659
-const apikey = 'mY81iO40=H7=dCbFdjeEc338C48'; // 该设备的apikey mY81iO40=H7=dCbFdjeEc338C48=
+const devicesid = '903280424'; // 设备id 790032659
+const apikey = 'IgceZC4Pa43aMcCNG6OO48jTCnY='; // 该设备的apikey mY81iO40=H7=dCbFdjeEc338C48=
 Vue.prototype.$AMapLoader = AMapLoader;
 Vue.prototype.$axios = axios;
 Vue.prototype.$devicesid = devicesid;

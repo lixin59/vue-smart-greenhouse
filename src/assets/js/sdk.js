@@ -165,6 +165,29 @@
           doneCallBack = func;
         }
       };
+    },
+    /**
+     * 查看设备状态 http://api.heclouds.com/devices/device_id
+     * */
+    getDeviceStatus: function(deviceId) {
+      let doneCallBack;
+      const uri = 'devices/' + deviceId;
+      jsonp(API_HOST + '/api/jsonpresend?key=' + this._apiKey + '&method=GET&uri=' + uri, function(error, res) {
+        // eslint-disable-next-line no-prototype-builtins
+        if (error || !res.hasOwnProperty('errno')) {
+          res = {
+            errno: 100,
+            error: 'timeout'
+          };
+        }
+
+        doneCallBack && doneCallBack(res);
+      });
+      return {
+        done: function(func) {
+          doneCallBack = func;
+        }
+      };
     }
   };
 

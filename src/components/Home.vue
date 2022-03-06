@@ -10,10 +10,8 @@
         route
       >
         <van-tabbar-item icon="home-o" to="/homedata">首页</van-tabbar-item>
-        <van-tabbar-item icon="chart-trending-o" to="/history"
-          >历史数据</van-tabbar-item
-        >
-        <van-tabbar-item icon="user-o" to="/user">我的</van-tabbar-item>
+        <van-tabbar-item icon="chart-trending-o" to="/history">历史数据</van-tabbar-item>
+<!--        <van-tabbar-item icon="user-o" to="/user">我的</van-tabbar-item>-->
       </van-tabbar>
     </div>
   </div>
